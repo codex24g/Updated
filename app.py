@@ -18,7 +18,7 @@ test_dir = 'test'
 
 # Image dimensions
 img_height, img_width = 224, 224
-batch_size = 16
+batch_size = 4
 
 # Function to update and overwrite class_names.json with current classes
 def update_and_overwrite_class_names():
