@@ -134,7 +134,7 @@ def retrain_model():
     # Train the model
     model.fit(
         train_generator,
-        epochs=8,
+        epochs=5,
         validation_data=valid_generator
     )
 
