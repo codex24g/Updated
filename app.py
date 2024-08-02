@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 import json
 import os
-import time  # Import time module
+import time
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, img_to_array, array_to_img
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D
@@ -61,6 +61,10 @@ def save_images(images, class_name):
     valid_folder = os.path.join(valid_dir, class_name)
     test_folder = os.path.join(test_dir, class_name)
     
+    # Save the original image to the test folder
+    original_image_path = os.path.join(test_folder, 'original_image.jpg')
+    images[0].save(original_image_path)  # Assuming the first image in the list is the original
+
     for i, img in enumerate(images):
         if i < 3:
             img.save(os.path.join(test_folder, f'image_{i}.jpg'))
@@ -189,7 +193,7 @@ if uploaded_image is not None and class_name:
 
     # Augment and save images
     augmented_images = augment_image(image)
-    save_images(augmented_images, class_name)
+    save_images([image] + augmented_images, class_name)  # Include the original image
 
     # Retrain the model
     retrain_model()
