@@ -9,6 +9,9 @@ from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
+from sklearn.metrics import classification_report, confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 # Paths to the dataset directories
 train_dir = 'train'
@@ -124,6 +127,47 @@ def retrain_model():
 
     model.save('staff_mobilenet_v2_model.h5')
 
+# Evaluate the model on the test set
+def evaluate_model():
+    with open('class_names.json', 'r') as f:
+        class_names = json.load(f)
+
+    num_classes = len(class_names)
+    
+    test_datagen = ImageDataGenerator(rescale=1./255)
+    test_generator = test_datagen.flow_from_directory(
+        test_dir,
+        target_size=(img_height, img_width),
+        batch_size=batch_size,
+        class_mode='categorical',
+        shuffle=False
+    )
+
+    model = tf.keras.models.load_model('staff_mobilenet_v2_model.h5')
+    test_loss, test_accuracy = model.evaluate(test_generator, verbose=1)
+    
+    st.write(f"Test Loss: {test_loss:.4f}")
+    st.write(f"Test Accuracy: {test_accuracy:.4f}")
+    
+    # Get predictions
+    y_pred = model.predict(test_generator)
+    y_pred_classes = np.argmax(y_pred, axis=1)
+    y_true = test_generator.classes
+
+    # Classification report
+    report = classification_report(y_true, y_pred_classes, target_names=list(class_names.keys()), output_dict=True)
+    st.write("Classification Report:")
+    st.write(json.dumps(report, indent=4))
+
+    # Confusion matrix
+    conf_matrix = confusion_matrix(y_true, y_pred_classes)
+    plt.figure(figsize=(10, 7))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=list(class_names.keys()), yticklabels=list(class_names.keys()))
+    plt.xlabel('Predicted Label')
+    plt.ylabel('True Label')
+    plt.title('Confusion Matrix')
+    st.pyplot(plt)
+
 # Streamlit app layout
 st.title("Staff Image Recognition")
 
@@ -170,3 +214,6 @@ if uploaded_image is not None and class_name:
 
     # Display prediction
     st.write(f"Prediction: {predicted_class} with probability {np.max(predictions):.2f}")
+
+    # Evaluate model on the test set
+    evaluate_model()
