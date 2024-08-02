@@ -4,6 +4,7 @@ import numpy as np
 import tensorflow as tf
 import json
 import os
+import time  # Import time module
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, img_to_array, array_to_img
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D
@@ -195,6 +196,10 @@ if uploaded_image is not None and class_name:
 
     # Load the updated model for prediction
     model = tf.keras.models.load_model('staff_mobilenet_v2_model.h5')
+
+    # Introduce a 5-second delay
+    st.write("Please wait, making predictions...")
+    time.sleep(5)  # Delay for 5 seconds
 
     # Preprocess and predict
     processed_image = preprocess_image(image)
