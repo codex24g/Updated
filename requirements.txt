@@ -161,7 +161,6 @@ tensorflowjs==4.20.0
 tensorstore==0.1.63
 termcolor==2.4.0
 tf_keras==2.15.1
-tflite-support==0.4.3
 thop==0.1.1.post2209072238
 threadpoolctl==3.2.0
 tifffile==2023.12.9
