@@ -90,7 +90,6 @@ opencv-python-headless==4.10.0.84
 opt-einsum==3.3.0
 optax==0.2.3
 optree==0.12.1
-orbax-checkpoint==0.5.23
 orderedmultidict==1.0.1
 pandas==2.1.4
 pathlib2==2.3.7.post1
