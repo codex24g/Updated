@@ -164,6 +164,7 @@ if uploaded_image is not None and class_name:
     # Debugging output
     st.write("Predicted Class Index:", predicted_class_index)
     st.write("Class Names Mapping:", class_names)
+    st.write("Predictions Array:", predictions)
 
     predicted_class = list(class_names.keys())[predicted_class_index]
 
