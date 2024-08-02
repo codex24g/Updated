@@ -157,7 +157,6 @@ tensorflow-hub==0.16.1
 tensorflow-io-gcs-filesystem==0.31.0
 tensorflow-probability==0.18.0
 tensorflowjs==4.20.0
-tensorstore==0.1.63
 termcolor==2.4.0
 tf_keras==2.15.1
 thop==0.1.1.post2209072238
